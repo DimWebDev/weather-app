@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./theme";
+import { theme } from "./utils/theme";
 
 export const App = () => {
   return (
