@@ -2,9 +2,22 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import SunnyWeatherIcon from "../assets/icons/sunny-weather.svg";
 import styled from "@emotion/styled";
+import { theme } from "../utils/theme"; // Import the theme directly
+
+// Define the styled component for the forecast item using the directly imported theme, due to error encountered by using the ThemeProvider with Material UI and Emotion Styled Components
+const StyledMainContentBox = styled(Box)`
+  text-align: center;
+  height: 300px;
+  border-left: 4px solid ${theme.palette.primary.main};
+  border-top: 4px solid ${theme.palette.primary.main};
+  border-radius: 4px;
+  background-color: ${theme.palette.background.paper};
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), -4px 0 8px rgba(0, 0, 0, 0.2);
+  margin: ${theme.spacing(2)};
+`;
 
 const StyledIcon = styled("img")`
-  width: 100px;
+  width: 200px;
   height: auto;
 `;
 
@@ -19,16 +32,11 @@ export const MainContent: React.FC<MainContentProps> = ({
   temperature,
   iconCode,
 }) => {
-  // You can use a function or a mapping to select the correct icon based on iconCode
-  // For example:
-  //   const weatherIcon = iconCode === "01d" ? SunnyWeatherIcon : "default_icon";
-
   return (
-    <Box sx={{ textAlign: "center" }}>
-      {/* Here you can use an img tag to display the icon */}
+    <StyledMainContentBox>
       <StyledIcon src={SunnyWeatherIcon} alt="Sunny Weather" />
       <Typography variant="h2">{temperature}</Typography>
       <Typography variant="subtitle1">{condition}</Typography>
-    </Box>
+    </StyledMainContentBox>
   );
 };

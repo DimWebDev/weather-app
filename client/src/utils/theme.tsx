@@ -1,5 +1,16 @@
 import { createTheme } from "@mui/material/styles";
 
+// Declare module augmentation
+declare module "@mui/material/styles" {
+  interface Theme {
+    // Add custom properties here if any
+  }
+  // Allow configuration using `createTheme`
+  interface ThemeOptions {
+    // Add custom properties here if any
+  }
+}
+
 export const theme = createTheme({
   palette: {
     primary: {
@@ -51,5 +62,3 @@ export const theme = createTheme({
     },
   },
 });
-
-
