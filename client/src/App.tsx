@@ -23,7 +23,9 @@ interface WeatherData {
     };
     weather: Array<{
       main: string; // Group of weather parameters (Rain, Snow, etc.)
+      description?: string;
       icon: string; // Icon code
+
     }>;
     wind: {
       speed: number; // Wind speed in meter/sec
@@ -65,17 +67,17 @@ useEffect(() => {
 }, []);
 
 
-  const formatDate = (timestamp: number, timezone: string) => {
-    return new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      timeZone: timezone,
-    }).format(new Date(timestamp * 1000));
-  };
+  // const formatDate = (timestamp: number, timezone: string) => {
+  //   return new Intl.DateTimeFormat('en-US', {
+  //     hour: '2-digit',
+  //     minute: '2-digit',
+  //     timeZone: timezone,
+  //   }).format(new Date(timestamp * 1000));
+  // };
   
   const sideInformationDetails = weatherData ? {
-    sunrise: formatDate(weatherData.city.sunrise, 'America/Los_Angeles'), // Seattle is in the Pacific Time Zone
-    sunset: formatDate(weatherData.city.sunset, 'America/Los_Angeles'),
+    sunrise: new Date(weatherData.city.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    sunset: new Date(weatherData.city.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     humidity: weatherData.list[0].main.humidity,
     wind: `${(weatherData.list[0].wind.speed * 3.6).toFixed(1)} km/h`, // Convert m/s to km/h
     pressure: `${weatherData.list[0].main.pressure} mb`,
@@ -98,6 +100,7 @@ useEffect(() => {
       day: new Date(item.dt * 1000).toLocaleDateString("en-US", { weekday: "long" }),
       // Temperature is already provided in Celsius according to your API response
       temperature: `${item.main.temp.toFixed(1)}°C`,
+      icon: item.weather[0].icon
     }));
   
     // Return only the next 5 entries (5 days forecast)
@@ -118,7 +121,7 @@ useEffect(() => {
           <MainContent
             condition={weatherData.list[0].weather[0].main}
             temperature={`${weatherData.list[0].main.temp.toFixed(1)}°C`} // Temperature already in Celsius
-            // iconCode prop can be added later when you handle the weather icon
+            iconCode={weatherData.list[0].weather[0].icon}
           />
         </Grid>
   
