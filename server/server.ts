@@ -1,6 +1,7 @@
 import express from 'express';
 import axios from 'axios';
 import cors from 'cors';
+import 'dotenv/config';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -13,12 +14,14 @@ app.use(express.json());
 
 app.get("/", (req, res) => res.send("Weather API"));
 
-// Weather route
-app.get('/weather', async (req, res) => {
+// 5 Day / 3 Hour Forecast route
+app.get('/forecast', async (req, res) => {
   const lat = 47.6062; // Hardcoded latitude for Seattle
   const lon = -122.3321; // Hardcoded longitude for Seattle
-  const api_key = 'your_api_key'; // Replace with your actual OpenWeatherMap API key
-  const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=metric&appid=${api_key}`;
+  const api_key = process.env.OPENWEATHER_API_KEY; // Access the API key from the .env file
+
+  // Replace 'forecast' with the correct endpoint for the 5 day / 3-hour forecast API
+  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${api_key}`;
 
   try {
     const response = await axios.get(url);
