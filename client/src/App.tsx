@@ -45,18 +45,25 @@ interface WeatherData {
 export const App = () => {
 
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getWeatherData();
-        setWeatherData(data);
-      } catch (error) {
-        console.error("Error fetching weather data", error);
-      }
-    };
 
-    fetchData();
-  }, []);
+useEffect(() => {
+  const fetchData = async (latitude: number, longitude: number) => {
+    try {
+      const data = await getWeatherData(latitude, longitude);
+      setWeatherData(data);
+    } catch (error) {
+      console.error("Error fetching weather data", error);
+    }
+  };
+
+  navigator.geolocation.getCurrentPosition((position) => {
+    fetchData(position.coords.latitude, position.coords.longitude);
+  }, (error) => {
+    console.error("Error getting the user's location", error);
+    // Fallback to a default location or handle the error
+  });
+}, []);
+
 
   const formatDate = (timestamp: number, timezone: string) => {
     return new Intl.DateTimeFormat('en-US', {
