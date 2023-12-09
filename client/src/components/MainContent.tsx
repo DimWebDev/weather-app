@@ -24,13 +24,13 @@ const StyledIcon = styled("img")`
 interface MainContentProps {
   condition: string;
   temperature: string;
-  iconCode: string; // Icon code to select the right weather icon
+
 }
 
 export const MainContent: React.FC<MainContentProps> = ({
   condition,
   temperature,
-  iconCode,
+
 }) => {
   return (
     <StyledMainContentBox>
