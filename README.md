@@ -18,7 +18,7 @@ To get started with this application, clone the repository and install the depen
 - Node.js (v18.12.1 or higher)
 - npm (included with Node.js)
 
-### Installation
+### Installation & Launch of the Client and the Server
 
 Navigate to both the `client` and `server` directories and install their dependencies:
 
