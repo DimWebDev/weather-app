@@ -25,7 +25,9 @@ Navigate to both the `client` and `server` directories and install their depende
 ```bash
 cd client
 npm install
+npm start
 
-cd ../server
+cd server
 npm install
+npm run dev
 ```
