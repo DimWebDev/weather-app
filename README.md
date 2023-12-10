@@ -9,6 +9,26 @@ The application is divided into two main components:
 - `client`: The front-end React application built with TypeScript.
 - `server`: The back-end Express server that provides API endpoints for weather data.
 
+## Obtain an API Key:
+
+- Visit the OpenWeatherMap website: https://openweathermap.org/
+- Sign up and navigate to the API keys section in your account.
+- Generate a new API key.
+
+## Set Up the API Key in the Application:
+
+- In the server directory of the application, create a file named .env.
+- Add your API key to this file in the following format:
+  `OPENWEATHER_API_KEY=your_api_key_here`
+- This API key will be used by the server to make requests to the OpenWeatherMap API.
+
+Note: The .env file should not be committed to your version control system. Make sure it is listed in your .gitignore file to avoid exposing your API key publicly.
+
+## Key Features
+
+- User Location Detection: The application retrieves the user's geographical location to provide localized weather forecasts.
+- Daily Forecast Extraction: The OpenWeatherMap API provides weather forecasts in 3-hour intervals. To present a consistent daily forecast, the application specifically extracts forecasts for 15:00 each day. This approach was necessary because by default, the API response includes multiple forecasts per day. Filtering the data to focus on the same time each day allows for a more standardized and useful daily forecast representation. This time was chosen as it typically represents the temperature during the warmest part of the day.
+
 ## Getting Started
 
 To get started with this application, clone the repository and install the dependencies for both the client and server.
@@ -31,3 +51,33 @@ cd server
 npm install
 npm run dev
 ```
+
+## Client-Side Logic
+
+The client application employs custom hooks and utility functions to manage and transform weather data. Key functionalities include:
+
+- useWeatherData Hook: This custom React hook is responsible for fetching weather data based on the user's location. It manages state for the weather data, loading status, and any errors encountered.
+
+```
+// useWeatherData.ts
+import { useState, useEffect } from 'react';
+import { getWeatherData } from '../utils/weatherService';
+// ... rest of the hook ...
+```
+
+- transformWeeklyForecast Utility: A function that processes the raw forecast data to extract a consistent daily forecast at 15:00 for the next five days.
+
+```
+// transformWeeklyForecast.ts
+// ... function implementation ...
+```
+
+### Backend Integration
+
+The server uses the OpenWeatherMap API to fetch weather data. It responds to requests from the client with relevant weather information based on the provided geographical coordinates.
+
+## Further Documentation
+
+For a detailed understanding of the data structure and to scale the application for more comprehensive weather details, refer to the OpenWeatherMap 5-day forecast API documentation:
+
+OpenWeatherMap API Documentation: https://openweathermap.org/forecast5
