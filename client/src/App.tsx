@@ -4,35 +4,37 @@ import { Header } from "./components/Header";
 import { MainContent } from "./components/MainContent";
 import { SideInformation } from "./components/SideInformation";
 import { Forecast } from "./components/Forecast";
-import { useWeatherData } from './hooks/useWeatherData';
-import { transformWeeklyForecast } from './utils/forecastUtil';
-
+import { useWeatherData } from "./hooks/useWeatherData";
+import { transformWeeklyForecast } from "./utils/forecastUtil";
+import createSideInformationDetails from "./utils/sideInformationUtil";
 
 export const App = () => {
-
   const { weatherData, loading, error } = useWeatherData();
 
   if (!weatherData) {
     return <div>Loading...</div>;
   }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  
-  // Create side information details
-  const sideInformationDetails = {
-    sunrise: new Date(weatherData.city.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    sunset: new Date(weatherData.city.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    humidity: weatherData.list[0].main.humidity,
-    wind: `${(weatherData.list[0].wind.speed * 3.6).toFixed(1)} km/h`, // Convert m/s to km/h
-    pressure: `${weatherData.list[0].main.pressure} mb`,
-  };
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  // Use the utility function to create side information details
+  const sideInformationDetails = createSideInformationDetails(weatherData);
 
   // Use the utility function to transform the forecast data
   const weeklyForecast = transformWeeklyForecast(weatherData.list);
 
   return (
     <ThemeProvider theme={theme}>
-      <Header city={weatherData.city.name} date={new Date().toLocaleDateString()} />
-  
+      <Header
+        city={weatherData.city.name}
+        date={new Date().toLocaleDateString()}
+      />
+
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
           <MainContent
@@ -41,16 +43,16 @@ export const App = () => {
             iconCode={weatherData.list[0].weather[0].icon}
           />
         </Grid>
-  
+
         <Grid item xs={12} md={4}>
-             <SideInformation details={sideInformationDetails} />
+          <SideInformation details={sideInformationDetails} />
         </Grid>
         <Grid item xs={12}>
-        <Forecast weeklyForecast={transformWeeklyForecast(weatherData.list)} />
+          <Forecast weeklyForecast={weeklyForecast} />
         </Grid>
       </Grid>
     </ThemeProvider>
   );
-}
+};
 
 export default App;
