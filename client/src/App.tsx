@@ -6,74 +6,18 @@ import { MainContent } from "./components/MainContent";
 import { SideInformation } from "./components/SideInformation";
 import { Forecast } from "./components/Forecast";
 import { getWeatherData } from './services/weatherService'; // Make sure this import is correct
-
-// Define the structure of your weather data
-interface WeatherData {
-  city: {
-    name: string;
-    sunrise: number; 
-    sunset: number;
-  };
-  list: Array<{
-    dt: number;
-    main: {
-      temp: number; // Temperature in Celsius
-      humidity: number; // Humidity percentage
-      pressure: number; // Atmospheric pressure in hPa
-    };
-    weather: Array<{
-      main: string; // Group of weather parameters (Rain, Snow, etc.)
-      description?: string;
-      icon: string; // Icon code
-
-    }>;
-    wind: {
-      speed: number; // Wind speed in meter/sec
-      deg: number; // Wind direction in degrees
-    };
-    dt_txt: string; // Date and time of the forecast in text format
-  }>;
-// The WeatherData interface currently includes only a subset of the properties available in the API response.
-// You should extend this interface to include additional properties as needed for new features. For a complete
-// list of available data points and detailed information about each one, refer to the OpenWeatherMap 5-day forecast
-// API documentation. This documentation is essential for understanding the data structure and scaling the application
-// to incorporate more comprehensive weather details. The API offers a wide range of weather information that can be
-// utilized to enhance the app's functionality and user experience.
-// API Documentation: https://openweathermap.org/forecast5
-}
+import { useWeatherData } from './hooks/useWeatherData';
 
 
 
 export const App = () => {
 
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const { weatherData, loading, error } = useWeatherData();
 
-useEffect(() => {
-  const fetchData = async (latitude: number, longitude: number) => {
-    try {
-      const data = await getWeatherData(latitude, longitude);
-      setWeatherData(data);
-    } catch (error) {
-      console.error("Error fetching weather data", error);
-    }
-  };
+  if (!weatherData) {
+    return <div>Loading...</div>;
+  }
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    fetchData(position.coords.latitude, position.coords.longitude);
-  }, (error) => {
-    console.error("Error getting the user's location", error);
-    // Fallback to a default location or handle the error
-  });
-}, []);
-
-
-  // const formatDate = (timestamp: number, timezone: string) => {
-  //   return new Intl.DateTimeFormat('en-US', {
-  //     hour: '2-digit',
-  //     minute: '2-digit',
-  //     timeZone: timezone,
-  //   }).format(new Date(timestamp * 1000));
-  // };
   
   const sideInformationDetails = weatherData ? {
     sunrise: new Date(weatherData.city.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
