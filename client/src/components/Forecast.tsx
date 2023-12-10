@@ -1,24 +1,31 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
 import { ForecastItem } from "./ForecastItem";
+import styled from "@mui/system/styled";
+
+// Create a styled component for the flex container
+const FlexContainer = styled(Box)`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; // You can adjust the alignment as needed
+`;
 
 interface ForecastProps {
   weeklyForecast: Array<{
     day: string;
     temperature: string;
+    icon: string;
   }>;
 }
 
 export const Forecast: React.FC<ForecastProps> = ({ weeklyForecast }) => {
   return (
     <Box sx={{ padding: 2 }}>
-      <Grid container spacing={2}>
+      <FlexContainer>
         {weeklyForecast.map((forecast, index) => (
-          <Grid item key={index} xs={12} sm={6} md={4} lg={2}>
-            <ForecastItem {...forecast} />
-          </Grid>
+          <ForecastItem key={index} {...forecast} />
         ))}
-      </Grid>
+      </FlexContainer>
     </Box>
   );
 };

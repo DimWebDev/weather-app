@@ -38,7 +38,7 @@ export const theme = createTheme({
     },
     background: {
       // Background colors for application.
-      default: "#E0F7FA", // Light blue for the default background, simulating a clear sky.
+      default: "#B0E0E6", // Light blue for the default background, simulating a clear sky.
       paper: "#FFFFFF", // White background for paper elements, like cards.
     },
     text: {
