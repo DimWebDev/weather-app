@@ -39,6 +39,4 @@ describe("MainContent", () => {
     expect(conditionElement).toBeInTheDocument();
     expect(conditionElement).toHaveTextContent(props.condition);
   });
-
-  // Additional tests could include checking for styling, testing user interactions, etc.
 });
