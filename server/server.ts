@@ -31,8 +31,6 @@ app.get("/forecast", async (req, res) => {
   }
 });
 
-// Other imports remain unchanged
-
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
