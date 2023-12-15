@@ -4,7 +4,6 @@ import { App } from "./App";
 import * as Hooks from "./hooks/useWeatherData";
 import "@testing-library/jest-dom";
 
-// A mock utility function that we might have to use in multiple test cases
 const mockWeatherData = {
   city: {
     name: "Test City",
