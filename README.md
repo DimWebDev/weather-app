@@ -81,3 +81,46 @@ The server uses the OpenWeatherMap API to fetch weather data. It responds to req
 For a detailed understanding of the data structure and to scale the application for more comprehensive weather details, refer to the OpenWeatherMap 5-day forecast API documentation:
 
 OpenWeatherMap API Documentation: https://openweathermap.org/forecast5
+
+## Running Component Tests
+
+**Testing the Frontend (React Application)**
+
+Our project comprises both client (frontend) and server (backend) components. To specifically test the frontend, which is our React application, we use Jest for component testing. This ensures that the UI components behave as expected. Follow these steps to execute the frontend component tests:
+
+Our React application is equipped with component tests written using Jest. To ensure the components are functioning as expected, you can easily run these tests. Follow the steps below to execute the component tests:
+
+1. **Navigate to the Client Directory**:
+   First, you need to switch to the `client` directory where our React application resides. Open your terminal and run the following command:
+
+   ```bash
+   cd client
+   ```
+
+2. **Run the Tests**
+   Once you are in the `client` directory, you can run the component tests using the following command:
+
+   ```bash
+   npm test
+   ```
+
+   This command will initiate the Jest testing framework and execute all the component tests. You'll see the test results in your terminal.
+
+**Testing the Backend (Express Server)**
+
+Testing the backend is equally important to ensure that our server-side logic functions correctly. We utilize Jest along with Supertest for this purpose. Supertest enables us to test HTTP endpoints without the need for the server to be actively listening on a network port.
+
+1. **Navigate to the Server Directory**:
+
+   ```bash
+   cd server
+   ```
+
+2. **Run the Tests**
+   Once you are in the `server` directory, you can run the tests using the following command:
+   ```bash
+   npm test
+   ```
+   This command runs the Jest framework, which processes the test files to check the functionality of your server routes and logic. Any network requests are handled by Supertest, which mocks actual HTTP requests to the server.
+
+Please make sure you have all the necessary dependencies installed before running the tests. If you encounter any issues, feel free to check the troubleshooting section or contact the development team for assistance.

@@ -7,6 +7,7 @@ import { theme } from "../utils/theme"; // Directly import the theme
 const StyledForecastItem = styled(Box)({
   textAlign: "center",
   width: "300px",
+  marginTop: "5px",
   padding: theme.spacing(1),
   borderRadius: theme.shape.borderRadius, // Rounded corners
   boxShadow: "0 2px 4px rgba(0,0,0,0.1)", // Subtle box shadow for depth

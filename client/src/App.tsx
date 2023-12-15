@@ -6,7 +6,7 @@ import { SideInformation } from "./components/SideInformation";
 import { Forecast } from "./components/Forecast";
 import { useWeatherData } from "./hooks/useWeatherData";
 import { transformWeeklyForecast } from "./utils/forecastUtil";
-import createSideInformationDetails from "./utils/sideInformationUtil";
+import { createSideInformationDetails } from "./utils/sideInformationUtil";
 
 export const App = () => {
   const { weatherData, loading, error } = useWeatherData();
@@ -39,7 +39,7 @@ export const App = () => {
         <Grid item xs={12} md={8}>
           <MainContent
             condition={weatherData.list[0].weather[0].main}
-            temperature={`${weatherData.list[0].main.temp.toFixed(1)}°C`} // Temperature already in Celsius
+            temperature={`${weatherData.list[0].main.temp.toFixed(1)}°C`} // Temperature already in Celsius. // Temperature is converted to a string here
             iconCode={weatherData.list[0].weather[0].icon}
           />
         </Grid>

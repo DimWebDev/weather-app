@@ -21,7 +21,7 @@ const StyledIcon = styled("img")`
 
 interface MainContentProps {
   condition: string;
-  temperature: string;
+  temperature: string; // Correctly typed as a string, as that's how it's passed
   iconCode: string; // Add iconCode prop
 }
 
