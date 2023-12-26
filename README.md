@@ -123,4 +123,4 @@ Testing the backend is equally important to ensure that our server-side logic fu
    ```
    This command runs the Jest framework, which processes the test files to check the functionality of your server routes and logic. Any network requests are handled by Supertest, which mocks actual HTTP requests to the server.
 
-Please make sure you have all the necessary dependencies installed before running the tests. If you encounter any issues, feel free to check the troubleshooting section or contact the development team for assistance.
+Please make sure you have all the necessary dependencies installed before running the tests.
