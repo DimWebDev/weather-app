@@ -1,126 +1,173 @@
 # Weather-App
 
-This repository contains the Weather-App, a full-stack application that provides weather forecasts.
+The Weather-App is a full-stack web application that provides localized weather forecasts using data from the OpenWeatherMap API. It is built with a React front-end and an Express.js back-end, designed to deliver daily weather forecasts in a clean, user-friendly interface.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+  - [Cloning the Repository](#cloning-the-repository)
+  - [API Key Setup](#api-key-setup)
+  - [Installing Dependencies](#installing-dependencies)
+  - [Running the Application](#running-the-application)
+- [Client-Side Logic](#client-side-logic)
+- [Backend Integration](#backend-integration)
+- [Testing](#testing)
+  - [Frontend Tests](#frontend-tests)
+  - [Backend Tests](#backend-tests)
+- [Further Documentation](#further-documentation)
 
 ## Overview
 
-The application is divided into two main components:
+The Weather-App consists of two main components:
 
-- `client`: The front-end React application built with TypeScript.
-- `server`: The back-end Express server that provides API endpoints for weather data.
+- **Client:** A React application built with TypeScript that serves the front-end interface.
+- **Server:** An Express.js application that fetches weather data from the OpenWeatherMap API and serves it to the client.
 
-## Obtain an API Key:
-
-- Visit the OpenWeatherMap website: https://openweathermap.org/
-- Sign up and navigate to the API keys section in your account.
-- Generate a new API key.
-
-## Set Up the API Key in the Application:
-
-- In the server directory of the application, create a file named .env.
-- Add your API key to this file in the following format:
-  `OPENWEATHER_API_KEY=your_api_key_here`
-- This API key will be used by the server to make requests to the OpenWeatherMap API.
-
-Note: The .env file should not be committed to your version control system. Make sure it is listed in your .gitignore file to avoid exposing your API key publicly.
+This structure allows the app to handle user requests for weather information and display forecasts in a simple, accessible way.
 
 ## Key Features
 
-- User Location Detection: The application retrieves the user's geographical location to provide localized weather forecasts.
-- Daily Forecast Extraction: The OpenWeatherMap API provides weather forecasts in 3-hour intervals. To present a consistent daily forecast, the application specifically extracts forecasts for 15:00 each day. This approach was necessary because by default, the API response includes multiple forecasts per day. Filtering the data to focus on the same time each day allows for a more standardized and useful daily forecast representation. This time was chosen as it typically represents the temperature during the warmest part of the day.
+- **User Location Detection:** Automatically detects the user's geographical location to provide localized weather forecasts.
+- **Daily Forecast Extraction:** The application extracts weather forecasts for 15:00 each day to ensure a consistent, comparable daily forecast.
+- **Responsive UI:** The React front-end is designed to work across various device sizes, ensuring a smooth user experience on both desktop and mobile.
+  
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your machine:
+
+- **Node.js** (v18.12.1 or higher)
+- **npm** (comes bundled with Node.js)
+
+You will also need an API key from OpenWeatherMap to fetch weather data.
 
 ## Getting Started
 
-To get started with this application, clone the repository and install the dependencies for both the client and server.
+### Cloning the Repository
 
-### Prerequisites
-
-- Node.js (v18.12.1 or higher)
-- npm (included with Node.js)
-
-### Installation & Launch of the Client and the Server
-
-Navigate to both the `client` and `server` directories and install their dependencies:
+To get started, clone the repository to your local machine using the following command:
 
 ```bash
-cd client
-npm install
-npm start
-
-cd server
-npm install
-npm run dev
+git clone https://github.com/your-username/weather-app.git
 ```
+
+### API Key Setup
+
+To use the OpenWeatherMap API, you'll need to obtain an API key:
+
+1. **Visit the OpenWeatherMap Website:** Sign up or log in at [OpenWeatherMap](https://openweathermap.org/).
+2. **Generate API Key:** Once logged in, navigate to the API keys section and create a new API key.
+3. **Set Up API Key in the Server:** 
+   - Navigate to the `server` directory.
+   - Create a `.env` file and add your API key in the following format:
+   
+     ```bash
+     OPENWEATHER_API_KEY=your_api_key_here
+     ```
+
+4. Ensure the `.env` file is included in your `.gitignore` to prevent it from being pushed to version control.
+
+### Installing Dependencies
+
+You need to install the necessary dependencies for both the client and the server.
+
+1. **Navigate to the client directory and install dependencies:**
+
+   ```bash
+   cd client
+   npm install
+   ```
+
+2. **Navigate to the server directory and install dependencies:**
+
+   ```bash
+   cd server
+   npm install
+   ```
+
+### Running the Application
+
+Once the dependencies are installed, you can run the client and server separately.
+
+1. **Start the Client:**
+
+   In the `client` directory, run:
+
+   ```bash
+   npm start
+   ```
+
+   This will start the React development server, typically available at `http://localhost:3000`.
+
+2. **Start the Server:**
+
+   In the `server` directory, run:
+
+   ```bash
+   npm run dev
+   ```
+
+   This will start the Express server, typically available at `http://localhost:5000`.
 
 ## Client-Side Logic
 
-The client application employs custom hooks and utility functions to manage and transform weather data. Key functionalities include:
+The client-side React application manages and displays weather data using custom hooks and utility functions:
 
-- useWeatherData Hook: This custom React hook is responsible for fetching weather data based on the user's location. It manages state for the weather data, loading status, and any errors encountered.
+- **`useWeatherData` Hook:** This hook is responsible for fetching weather data based on the user's location. It manages the state for the weather data, loading status, and error handling. It calls a utility function to make requests to the back-end and keeps track of the data-fetching lifecycle.
 
-```
-// useWeatherData.ts
-import { useState, useEffect } from 'react';
-import { getWeatherData } from '../utils/weatherService';
-// ... rest of the hook ...
-```
+- **`transformWeeklyForecast` Utility:** This utility function processes the raw weather data received from the API. It extracts and standardizes daily forecasts at 15:00 for the next five days, providing a consistent view of the forecast.
 
-- transformWeeklyForecast Utility: A function that processes the raw forecast data to extract a consistent daily forecast at 15:00 for the next five days.
+These components work together to ensure smooth data flow from the OpenWeatherMap API to the user interface.
 
-```
-// transformWeeklyForecast.ts
-// ... function implementation ...
-```
+## Backend Integration
 
-### Backend Integration
+The Express.js back-end handles API requests from the client and interacts with the OpenWeatherMap API. It retrieves weather data based on geographical coordinates and sends the relevant data back to the client.
 
-The server uses the OpenWeatherMap API to fetch weather data. It responds to requests from the client with relevant weather information based on the provided geographical coordinates.
+- **API Integration:** The back-end uses the API key from the `.env` file to authenticate requests to the OpenWeatherMap API.
+- **Geolocation-Based Forecasts:** The client sends the user's geolocation (latitude and longitude) to the server, which in turn fetches weather data from the OpenWeatherMap API and returns it.
 
-## Further Documentation
+## Testing
 
-For a detailed understanding of the data structure and to scale the application for more comprehensive weather details, refer to the OpenWeatherMap 5-day forecast API documentation:
+### Frontend Tests
 
-OpenWeatherMap API Documentation: https://openweathermap.org/forecast5
+We use **Jest** for testing the React components in the front-end. To run the tests:
 
-## Running Component Tests
-
-**Testing the Frontend (React Application)**
-
-Our project comprises both client (frontend) and server (backend) components. To specifically test the frontend, which is our React application, we use Jest for component testing. This ensures that the UI components behave as expected. Follow these steps to execute the frontend component tests:
-
-Our React application is equipped with component tests written using Jest. To ensure the components are functioning as expected, you can easily run these tests. Follow the steps below to execute the component tests:
-
-1. **Navigate to the Client Directory**:
-   First, you need to switch to the `client` directory where our React application resides. Open your terminal and run the following command:
+1. **Navigate to the client directory:**
 
    ```bash
    cd client
    ```
 
-2. **Run the Tests**
-   Once you are in the `client` directory, you can run the component tests using the following command:
+2. **Run the tests:**
 
    ```bash
    npm test
    ```
 
-   This command will initiate the Jest testing framework and execute all the component tests. You'll see the test results in your terminal.
+   This command will run the test suite and display the results in your terminal. Jest will automatically look for test files and execute the component tests.
 
-**Testing the Backend (Express Server)**
+### Backend Tests
 
-Testing the backend is equally important to ensure that our server-side logic functions correctly. We utilize Jest along with Supertest for this purpose. Supertest enables us to test HTTP endpoints without the need for the server to be actively listening on a network port.
+For testing the server, we use **Jest** combined with **Supertest**. Supertest allows us to simulate HTTP requests to the server without requiring the server to listen on a port.
 
-1. **Navigate to the Server Directory**:
+1. **Navigate to the server directory:**
 
    ```bash
    cd server
    ```
 
-2. **Run the Tests**
-   Once you are in the `server` directory, you can run the tests using the following command:
+2. **Run the tests:**
+
    ```bash
    npm test
    ```
-   This command runs the Jest framework, which processes the test files to check the functionality of your server routes and logic. Any network requests are handled by Supertest, which mocks actual HTTP requests to the server.
 
-Please make sure you have all the necessary dependencies installed before running the tests.
+   This will execute the test suite, validating that the API endpoints and server logic are functioning as expected.
+
+## Further Documentation
+
+For more detailed information on how the weather data is structured or to extend the application, refer to the OpenWeatherMap API documentation:
+
+- **[OpenWeatherMap 5-Day Forecast API Documentation](https://openweathermap.org/forecast5)**
