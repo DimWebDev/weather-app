@@ -50,7 +50,7 @@ You will also need an API key from OpenWeatherMap to fetch weather data.
 To get started, clone the repository to your local machine using the following command:
 
 ```bash
-git clone https://github.com/your-username/weather-app.git
+git clone <repository-url>
 ```
 
 ### API Key Setup
