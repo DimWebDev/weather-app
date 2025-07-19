@@ -11,10 +11,13 @@ export interface SimplifiedWeather {
   humidity: number;
   /** Atmospheric pressure in hPa */
   pressure: number;
-  /** Wind speed in meters per second */
-  windSpeed: number;
-  /** Wind direction in degrees */
-  windDirection: number;
+  /** Wind information */
+  wind: {
+    /** Wind speed in meters per second */
+    speed: number;
+    /** Wind direction in degrees */
+    direction: number;
+  };
   /** Rain volume for the last 3 hours in mm, if provided */
   rainVolume?: number;
 }
