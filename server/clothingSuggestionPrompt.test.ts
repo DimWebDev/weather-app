@@ -1,4 +1,4 @@
-import { clothingSuggestionPrompt } from "../prompts/clothingSuggestion";
+import { clothingSuggestionPrompt } from "./prompts/clothingSuggestion";
 
 describe("clothingSuggestionPrompt", () => {
   it("injects the weather summary into the template", async () => {
