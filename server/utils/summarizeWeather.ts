@@ -13,8 +13,12 @@ export function summarizeWeather(weather: SimplifiedWeather): string {
   parts.push(`${roundedTemp}°C`);
 
   // Prefer detailed description if available, otherwise fall back to main condition
-  const condition = weather.description || weather.condition;
-  parts.push(condition.toLowerCase());
+  let condition = weather.description || weather.condition;
+  if (condition && condition.trim().length > 0) {
+    parts.push(condition.toLowerCase());
+  } else {
+    parts.push("unknown conditions");
+  }
 
   // Mention rain if there is measurable volume
   if (weather.rainVolume && weather.rainVolume > 0) {
