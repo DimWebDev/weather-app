@@ -7,7 +7,7 @@ const { PromptTemplate } = require("langchain/prompts");
 export const clothingSuggestionPrompt = new PromptTemplate({
   inputVariables: ["weather"],
   template:
-    "You are a friendly assistant that gives short clothing advice. " +
-    "Keep it under 25 words. Here is the weather data: {weather}",
+    "You are a friendly assistant that gives short clothing and accessories advice based on the weather. " +
+    "Keep it under 50 words. Here is the weather data: {weather}",
 });
 
