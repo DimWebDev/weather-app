@@ -1,4 +1,4 @@
-const { PromptTemplate } = require("langchain/prompts");
+const { PromptTemplate } = require("@langchain/core/prompts");
 
 /**
  * Prompt template instructing the model to provide short clothing advice.
