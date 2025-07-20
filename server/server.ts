@@ -2,6 +2,11 @@ import express from "express";
 import axios from "axios";
 import cors from "cors";
 import "dotenv/config";
+import { ZodError } from "zod";
+import { clothingSuggestionPrompt } from "./prompts/clothingSuggestion";
+import { getClothingSuggestion } from "./utils/getClothingSuggestion";
+import { summarizeWeather } from "./utils/summarizeWeather";
+import { validateSimplifiedWeather } from "./utils/validateSimplifiedWeather";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -28,6 +33,25 @@ app.get("/forecast", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error fetching weather data" });
+  }
+});
+
+// Suggest clothing based on weather data
+app.post("/suggest-clothing", async (req, res) => {
+  try {
+    const weather = validateSimplifiedWeather(req.body);
+    const summary = summarizeWeather(weather);
+    const prompt = await clothingSuggestionPrompt.format({ weather: summary });
+    const suggestion = await getClothingSuggestion(prompt);
+    res.json({ suggestion });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      // Invalid input from client
+      res.status(400).json({ error: "Invalid weather data" });
+    } else {
+      console.error(error);
+      res.status(500).json({ error: "Failed to generate suggestion" });
+    }
   }
 });
 
