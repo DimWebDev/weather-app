@@ -33,6 +33,16 @@
 - Ensure your branch passes all tests and lint checks before requesting review.
 - Keep PRs focused and avoid mixing unrelated changes.
 
+* **PR Description Format:**
+
+  ```
+  [type]: short summary (< 80 chars)
+
+  WHY: Brief context  
+  WHAT: What was changed  
+  HOW: Any special reviewer notes
+  ```
+
 
 ---
 
