@@ -1,64 +1,103 @@
+// src/utils/theme.tsx
 import { createTheme } from "@mui/material/styles";
 
-// Declare module augmentation
+/* ----------------------------------------------------------------
+ *  Type augmentation (unchanged – kept for completeness)
+ * ---------------------------------------------------------------- */
 declare module "@mui/material/styles" {
-  interface Theme {
-    // Add custom properties here if any
-  }
-  // Allow configuration using `createTheme`
-  interface ThemeOptions {
-    // Add custom properties here if any
-  }
+  interface Theme { primaryGradient: string }
+  interface ThemeOptions { primaryGradient?: string }
 }
 
+/* ----------------------------------------------------------------
+ *  Base theme
+ * ---------------------------------------------------------------- */
 export const theme = createTheme({
   palette: {
-    primary: {
-      main: "#4A90E2", // This is a placeholder blue, choose the exact color using a color picker tool.
-      contrastText: "#FFFFFF", // White text for good contrast on primary color.
-    },
-    secondary: {
-      // Color similar to the sun.
-      main: "#FFC107", // This is a standard yellow, adjust as needed.
-    },
-    error: {
-      main: "#D32F2F", // Red color for errors.
-    },
-    warning: {
-      // Color for warning messages.
-      main: "#FFA000", // Amber color for warnings.
-    },
-    info: {
-      // Color for informational messages.
-      main: "#1976D2", // Blue color for information.
-    },
-    success: {
-      // Color for success messages.
-      main: "#388E3C", // Green color for successes.
-    },
+    primary:   { main: "#1565c0", contrastText: "#ffffff" },
+    secondary: { main: "#ffc107" },
+    error:     { main: "#d32f2f" },
+    warning:   { main: "#ffa000" },
+    info:      { main: "#1976d2" },
+    success:   { main: "#388e3c" },
     background: {
-      // Background colors for application.
-      default: "#B0E0E6", // Light blue for the default background, simulating a clear sky.
-      paper: "#FFFFFF", // White background for paper elements, like cards.
+      default: "#eef4fb",  // pale blue fallback if gradient fails
+      paper:   "#ffffff"
     },
     text: {
-      // Text colors.
-      primary: "#212121", // Dark gray for primary text, providing good readability.
-      secondary: "#757575", // Lighter gray for secondary text and less emphasis.
-    },
+      primary:   "#2e2e2e",
+      secondary: "#757575"
+    }
   },
+
   typography: {
-    // Define the typography for the entire application.
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // Common Material Design font.
+    fontFamily:
+      '"Inter","Nunito Sans","Roboto","Helvetica","Arial",sans-serif',
+    fontWeightLight:   300,
+    fontWeightRegular: 400,
+    fontWeightBold:    600,
+    h4: { fontWeight: 600, letterSpacing: -0.25 },
+    subtitle1: { fontWeight: 400 }
   },
+
+  shape: { borderRadius: 12 },
+
+  shadows: [
+    "none",
+    "0 1px 3px rgba(0,0,0,.12)",
+    "0 4px 12px rgba(0,0,0,.08)",
+    ...Array(22).fill("none")
+  ] as any,
+
+  transitions: {
+    easing: {
+      easeInOut: "cubic-bezier(.2,.8,.2,1)",
+      easeIn:    "cubic-bezier(.4,0,1,1)",
+      easeOut:   "cubic-bezier(0,0,0.2,1)",
+      sharp:     "cubic-bezier(.4,0,.6,1)"
+    }
+  },
+
   components: {
-    // Component-specific styles and overrides.
+    /* Soft, rounded cards */
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          boxShadow: "0 1px 3px rgba(0,0,0,.12)",
+          borderRadius: 12
+        }
+      }
+    },
+
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8, // Example of rounded corners for buttons.
-        },
-      },
+          textTransform: "none",
+          fontWeight: 600,
+          padding: "10px 24px",
+          borderRadius: 12
+        }
+      }
     },
-  },
+
+    /* ------------------------------------------------------------
+       Global background via CssBaseline
+       ------------------------------------------------------------ */
+    MuiCssBaseline: {
+      styleOverrides: {
+        "html, body, #root": {
+          minHeight: "100%",
+          /* Dual-stop gradient + subtle noise PNG for depth */
+          background:
+            `linear-gradient(180deg,#f4f8fc 0%, #e1ecf9 60%) center/cover,
+             url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2P8//8/AwAI/AL+Z8MRJAAAAABJRU5ErkJggg==") repeat`,
+        }
+      }
+    }
+  }
 });
+
+/* Helper for other components that want the same gradient */
+theme.primaryGradient = "linear-gradient(135deg,#2196f3 0%,#1565c0 100%)";
+
+export default theme;

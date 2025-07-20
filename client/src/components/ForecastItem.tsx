@@ -1,21 +1,28 @@
+// src/components/ForecastItem.tsx
 import React from "react";
 import { Typography, Box } from "@mui/material";
 import styled from "@emotion/styled";
-import { theme } from "../utils/theme"; // Directly import the theme
+import { theme } from "../utils/theme";
 
-// Define the styled component for the forecast item using the directly imported theme, due to error encountered by using the ThemeProvider with Material UI and Emotion Styled Components
+/* ------------------------------------------------------------------
+   Styled forecast card
+   • Uses the same soft blue‑to‑white gradient as ClothingSuggestion
+   • Subtle lift on hover (translateY) instead of the old 150 % zoom
+   • Full‑width inside its Grid cell for perfect alignment
+------------------------------------------------------------------- */
 const StyledForecastItem = styled(Box)({
   textAlign: "center",
-  width: "300px",
-  marginTop: "5px",
-  padding: theme.spacing(1),
-  borderRadius: theme.shape.borderRadius, // Rounded corners
-  boxShadow: "0 2px 4px rgba(0,0,0,0.1)", // Subtle box shadow for depth
-  transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out", // Smooth transition for hover effect
-  background: "#B0E0E6",
+  width: "100%",
+  marginTop: theme.spacing(1),
+  padding: theme.spacing(1.5),
+  borderRadius: theme.shape.borderRadius,
+  background:
+    "linear-gradient(135deg, rgba(226,241,255,0.85) 0%, rgba(255,255,255,0.85) 100%)",
+  boxShadow: "0 1px 3px rgba(0,0,0,.12)",
+  transition: "transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s",
   "&:hover": {
-    transform: "scale(1.5)", // Slightly enlarge on hover
-    boxShadow: "0 4px 8px rgba(0,0,0,0.2)", // Increase shadow on hover
+    transform: "translateY(-4px)",
+    boxShadow: "0 4px 12px rgba(0,0,0,.15)",
   },
 });
 
@@ -28,16 +35,17 @@ interface ForecastItemProps {
 export const ForecastItem: React.FC<ForecastItemProps> = ({
   day,
   temperature,
-  icon, // Include the icon code here
+  icon,
 }) => {
-  // Construct the URL for the weather icon image
   const iconUrl = `http://openweathermap.org/img/wn/${icon}.png`;
 
   return (
     <StyledForecastItem>
       <Typography variant="subtitle2">{day}</Typography>
-      <img src={iconUrl} alt="Weather icon" />
-      <Typography variant="body1">{temperature}</Typography>
+      <img src={iconUrl} alt="Weather icon" loading="lazy" />
+      <Typography variant="body1" sx={{ fontWeight: 500 }}>
+        {temperature}
+      </Typography>
     </StyledForecastItem>
   );
 };
