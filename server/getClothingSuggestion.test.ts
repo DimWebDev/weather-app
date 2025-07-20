@@ -1,18 +1,19 @@
+
 const mockInvoke = jest.fn().mockResolvedValue("Wear a jacket.");
 
-jest.mock("langchain/llms/openai", () => ({
+jest.mock("@langchain/openai", () => ({
   OpenAI: jest.fn().mockImplementation(() => ({
     invoke: mockInvoke,
   })),
 }));
 
-import { OpenAI } from "langchain/llms/openai";
+import { OpenAI } from "@langchain/openai";
 import { getClothingSuggestion } from "./utils/getClothingSuggestion";
 
 describe("getClothingSuggestion", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    rocess.env.OPENAI_MODEL = "gpt-4o-mini";
+    process.env.OPENAI_MODEL = "gpt-4o-mini";
   });
 
   it("returns the suggestion from the OpenAI model", async () => {
