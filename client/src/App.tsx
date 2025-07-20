@@ -5,11 +5,16 @@ import { MainContent } from "./components/MainContent";
 import { SideInformation } from "./components/SideInformation";
 import { Forecast } from "./components/Forecast";
 import { useWeatherData } from "./hooks/useWeatherData";
+import { useClothingSuggestion } from "./hooks/useClothingSuggestion";
+import { ClothingSuggestion } from "./components/ClothingSuggestion";
 import { transformWeeklyForecast } from "./utils/forecastUtil";
 import { createSideInformationDetails } from "./utils/sideInformationUtil";
 
 export const App = () => {
   const { weatherData, loading, error } = useWeatherData();
+
+  // Fetch clothing suggestion based on current weather
+  const { suggestion: clothingSuggestion, loading: clothingLoading, error: clothingError } = useClothingSuggestion(weatherData);
 
   if (!weatherData) {
     return <div>Loading...</div>;
@@ -41,6 +46,13 @@ export const App = () => {
             condition={weatherData.list[0].weather[0].main}
             temperature={`${weatherData.list[0].main.temp.toFixed(1)}°C`} // Temperature already in Celsius. // Temperature is converted to a string here
             iconCode={weatherData.list[0].weather[0].icon}
+          />
+
+          {/* Render clothing suggestion below main weather info */}
+          <ClothingSuggestion
+            suggestion={clothingSuggestion}
+            loading={clothingLoading}
+            error={clothingError}
           />
         </Grid>
 
