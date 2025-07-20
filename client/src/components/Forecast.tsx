@@ -1,14 +1,7 @@
+// src/components/Forecast.tsx
 import React from "react";
 import { Box, Grid } from "@mui/material";
 import { ForecastItem } from "./ForecastItem";
-import styled from "@mui/system/styled";
-
-// Create a styled component for the flex container
-const FlexContainer = styled(Box)`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; // You can adjust the alignment as needed
-`;
 
 interface ForecastProps {
   weeklyForecast: Array<{
@@ -18,14 +11,22 @@ interface ForecastProps {
   }>;
 }
 
-export const Forecast: React.FC<ForecastProps> = ({ weeklyForecast }) => {
-  return (
-    <Box sx={{ padding: 2 }}>
-      <FlexContainer>
-        {weeklyForecast.map((forecast, index) => (
-          <ForecastItem key={index} {...forecast} />
-        ))}
-      </FlexContainer>
-    </Box>
-  );
-};
+/**
+ * Renders the five‑day forecast in a centred, responsive grid.
+ * • 5 cards per row ≥ md (desktop)
+ * • 3 cards on small tablets
+ * • 2 cards on phones
+ * The Grid container’s “justifyContent='center'” keeps the row
+ * neatly aligned even when there are fewer than five items.
+ */
+export const Forecast: React.FC<ForecastProps> = ({ weeklyForecast }) => (
+  <Box sx={{ px: 1 }}>
+    <Grid container spacing={3} justifyContent="center"> 
+      {weeklyForecast.map((forecast, index) => (
+        <Grid item key={index} xs={6} sm={4} md={2}>
+          <ForecastItem {...forecast} />
+        </Grid>
+      ))}
+    </Grid>
+  </Box>
+);
