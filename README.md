@@ -171,3 +171,4 @@ For testing the server, we use **Jest** combined with **Supertest**. Supertest a
 For more detailed information on how the weather data is structured or to extend the application, refer to the OpenWeatherMap API documentation:
 
 - **[OpenWeatherMap 5-Day Forecast API Documentation](https://openweathermap.org/forecast5)**
+
