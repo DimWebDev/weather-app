@@ -1,4 +1,4 @@
-import { OpenAI } from "langchain/llms/openai";
+import { OpenAI } from "@langchain/openai";
 
 /**
  * Calls OpenAI's GPT model (model name from .env) to get a clothing suggestion.
