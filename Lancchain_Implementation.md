@@ -126,7 +126,7 @@ Encapsulate the LLM call logic using LangChain’s OpenAI interface.
 
 **LangChain Usage:**
 
-* Use `OpenAI` model with `{ modelName: "gpt-4o", temperature: 0.2 }`.
+* Use `OpenAI` model with `{ modelName: "gpt-4o-mini", temperature: 0.2 }`.
 
 ---
 
