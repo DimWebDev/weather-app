@@ -1,6 +1,14 @@
 # Weather-App
 
-The Weather-App is a full-stack web application that provides localized weather forecasts using data from the OpenWeatherMap API. It is built with a React front-end and an Express.js back-end, designed to deliver daily weather forecasts in a clean, user-friendly interface.
+> [!TIP]
+> **Weather-App** is not just another weather dashboard. Unlike traditional apps that only display raw forecasts, this full-stack application delivers truly personalized, actionable weather insights:
+> 
+> - **Automatic Location Detection:** Instantly tailors forecasts to your current position—no manual input required.
+> - **AI-Powered Clothing Suggestions:** Uses LangChain and OpenAI to recommend what to wear, based on real-time weather at your location.
+> - **Modern, Responsive UI:** Built with React and Material-UI for a seamless experience on any device.
+> - **Clear, Consistent Forecasts:** Focuses on the most relevant time of day (15:00) for easy daily planning.
+> 
+> This approach transforms weather data into practical advice, making it easier for users to plan their day and dress appropriately—something most weather apps do not offer.
 
 ## Table of Contents
 
@@ -14,6 +22,7 @@ The Weather-App is a full-stack web application that provides localized weather 
   - [Running the Application](#running-the-application)
 - [Client-Side Logic](#client-side-logic)
 - [Backend Integration](#backend-integration)
+  - [LangChain & Clothing Suggestion Feature](#langchain--clothing-suggestion-feature)
 - [Testing](#testing)
   - [Frontend Tests](#frontend-tests)
   - [Backend Tests](#backend-tests)
@@ -123,10 +132,43 @@ These components work together to ensure smooth data flow from the OpenWeatherMa
 
 ## Backend Integration
 
+
 The Express.js back-end handles API requests from the client and interacts with the OpenWeatherMap API. It retrieves weather data based on geographical coordinates and sends the relevant data back to the client.
 
 - **API Integration:** The back-end uses the API key from the `.env` file to authenticate requests to the OpenWeatherMap API.
 - **Geolocation-Based Forecasts:** The client sends the user's geolocation (latitude and longitude) to the server, which in turn fetches weather data from the OpenWeatherMap API and returns it.
+
+### LangChain & Clothing Suggestion Feature
+
+The application leverages [LangChain](https://js.langchain.com/) and OpenAI to provide personalized clothing suggestions based on the weather conditions at the user's current location. The process is designed to maximize the LLM's understanding and output quality:
+
+1. **Automatic Location Detection:** The client detects the user's location and requests the weather forecast for that area.
+2. **Weather Data Collection & Summarization:** The server collects detailed weather data (temperature, precipitation, wind, etc.) and summarizes it into a concise, human-readable format. This step ensures that only the most relevant information is sent to the LLM, improving the quality and relevance of the generated advice.
+3. **Prompt Formatting for LLM:** The summarized weather data is embedded into a carefully crafted prompt, making it easier for the LLM to understand the context and generate actionable clothing suggestions.
+4. **Clothing Suggestion Endpoint:** The client sends a request to the `/suggest-clothing` endpoint, which uses LangChain and OpenAI to generate a natural language clothing recommendation tailored to the forecasted weather.
+5. **Custom React Hook:** The client uses a custom hook (`useClothingSuggestion`) to fetch and display the clothing advice alongside the weather forecast.
+6. **User Experience:** The clothing suggestion is shown in the UI, helping users decide what to wear based on the latest weather at their location.
+
+**Example: Weather Data Summarization and Prompt Preparation**
+
+The server-side logic for summarizing weather data and preparing the prompt for the LLM can be found in [`server/utils/summarizeWeather.ts`](server/utils/summarizeWeather.ts):
+
+```ts
+// server/utils/summarizeWeather.ts
+export function summarizeWeather(weatherData) {
+  // Extract and format key weather details
+  const summary = `Forecast for ${weatherData.date}:
+  - Temperature: ${weatherData.temp}°C
+  - Precipitation: ${weatherData.precipitation}mm
+  - Wind: ${weatherData.windSpeed} km/h
+  - Conditions: ${weatherData.description}`;
+  return summary;
+}
+```
+
+This summary is then included in the prompt sent to the LLM, ensuring the model receives clear, structured context for generating clothing advice.
+
+This integration ensures that clothing advice is always relevant, up-to-date, and personalized for each user, enhancing the overall utility of the Weather-App.
 
 ## Testing
 
