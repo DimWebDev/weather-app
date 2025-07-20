@@ -1,5 +1,7 @@
 # Weather-App: Your AI-Powered Personal Weather & Outfit Assistant
 
+![App Screenshot](./screenshots/Screenshot%202025-07-20%20at%204.17.23%E2%80%AFPM.png)
+
 > [!TIP]
 > **Weather-App** is not just another weather dashboard. Unlike traditional apps that only display raw forecasts, this full-stack application delivers truly personalized, actionable weather insights:
 > 
