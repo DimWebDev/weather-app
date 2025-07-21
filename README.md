@@ -218,3 +218,7 @@ For more detailed information on how the weather data is structured or to extend
 
 - **[OpenWeatherMap 5-Day Forecast API Documentation](https://openweathermap.org/forecast5)**
 
+
+## Continuous Integration
+
+This project runs automated tests for both the `client` and `server` directories using GitHub Actions. The workflow defined in `.github/workflows/node.yml` installs dependencies and executes `npm test` whenever code is pushed or a pull request is opened.
